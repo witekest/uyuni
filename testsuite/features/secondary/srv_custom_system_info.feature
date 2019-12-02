@@ -4,7 +4,7 @@
 Feature: Custom system info key-value pairs
 
   Background:
-    Given I am authorized
+    Given I am authorized with the feature's user
 
   Scenario: Create a new key
     When I follow the left menu "Systems > Custom System Info"

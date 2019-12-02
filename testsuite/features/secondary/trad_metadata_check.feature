@@ -12,7 +12,7 @@ Feature: Metadata attached to systems
     Then I should not have 'epoch="0"' in the metadata for "sle_client"
 
   Scenario: Check local metadata does not contain \n at the end of the summary
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I refresh the metadata for "sle_client"
     Then I should have 'summary.*</summary' in the metadata for "sle_client"
 

@@ -7,7 +7,7 @@ Feature: Use advanced features of Salt formulas
   I want to be able to install and use Salt formulas
 
   Scenario: Install a test formula package on the server
-     Given I am authorized
+     Given I am authorized with the feature's user
      When I install "form.yml" to custom formula metadata directory "testform"
      And I install "metadata.yml" to custom formula metadata directory "testform"
      When I follow the left menu "Salt > Formula Catalog"

@@ -5,7 +5,7 @@
 Feature: Be able to register a CentOS 6 traditional client and do some basic operations on it
   
   Scenario: Prepare a CentOS 6 traditional client
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I enable repository "Devel_Galaxy_Manager_4.0_RES-Manager-Tools-6-x86_64" on this "ceos6_client"
     And I enable repository "SLE-Manager-Tools-RES-6-x86_64" on this "ceos6_client"
     And I enable repository "CentOS-Base" on this "ceos6_client"
@@ -40,7 +40,7 @@ Feature: Be able to register a CentOS 6 traditional client and do some basic ope
     Then I should see a "Confirm Software Channel Change" text
     When I click on "Confirm"
     Then I should see a "Changing the channels has been scheduled." text
-    And I wait until event "Subscribe channels scheduled by admin" is completed
+    And I wait until event "Subscribe channels scheduled" is completed
     
   Scenario: Schedule an OpenSCAP audit job for the CentOS 6 traditional client
     Given I am on the Systems overview page of this "ceos6_client"
@@ -64,7 +64,7 @@ Feature: Be able to register a CentOS 6 traditional client and do some basic ope
     And I should see a "service_" link
     
   Scenario: Schedule some actions on the CentOS 6 traditional client
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I authenticate to XML-RPC
     And I refresh the packages on "ceos6_client" through XML-RPC
     And I run a script on "ceos6_client" through XML-RPC

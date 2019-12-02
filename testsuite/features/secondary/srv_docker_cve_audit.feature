@@ -5,7 +5,7 @@ Feature: CVE audit for content management
   I want to see images that need to be patched or not 
 
   Background:
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
 
   Scenario: Schedule channel data refresh for content management
     When I follow the left menu "Admin > Task Schedules"

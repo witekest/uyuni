@@ -13,7 +13,7 @@ Feature: Bootstrap a Salt minion via the GUI with an activation key
     Then "sle_minion" should not be registered
 
   Scenario: Create a configuration channel for the activation key
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "Create Config Channel"
     And I enter "Key Channel" as "cofName"
@@ -23,7 +23,7 @@ Feature: Bootstrap a Salt minion via the GUI with an activation key
     Then I should see a "Key Channel" text
 
   Scenario: Add a configuration file to the key configuration channel
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "Key Channel"
     And I follow "Create Configuration File or Directory"
@@ -50,7 +50,7 @@ Feature: Bootstrap a Salt minion via the GUI with an activation key
     Then I should see a "Activation key Minion testing has been modified" text
 
   Scenario: Bootstrap a SLES minion with an activation key
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I go to the bootstrapping page
     Then I should see a "Bootstrap Minions" text
     When I enter the hostname of "sle_minion" as "hostname"
@@ -66,7 +66,7 @@ Feature: Bootstrap a Salt minion via the GUI with an activation key
     And I wait until onboarding is completed for "sle_minion"
 
   Scenario: Verify that minion bootstrapped with Salt key and packages
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I go to the minion onboarding page
     Then I should see a "accepted" text
     And the Salt master can reach "sle_minion"
@@ -109,7 +109,7 @@ Feature: Bootstrap a Salt minion via the GUI with an activation key
     And I remove package "perseus-dummy" from this "sle_minion"
 
   Scenario: Cleanup: remove the key configuration channel
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "Key Channel"
     And I follow "Delete Channel"

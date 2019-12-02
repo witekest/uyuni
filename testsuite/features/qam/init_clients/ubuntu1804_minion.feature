@@ -8,7 +8,7 @@
 Feature: Bootstrap a Ubuntu 18.04 minion and do some basic operations on it
 
   Scenario: Bootstrap a Ubuntu 18.04 minion
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I go to the bootstrapping page
     Then I should see a "Bootstrap Minions" text
     And I enter the hostname of "ubuntu1804_minion" as "hostname"

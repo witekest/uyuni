@@ -5,7 +5,7 @@
 Feature: Action chain on traditional clients
 
   Scenario: Pre-requisite: downgrade repositories to lower version on traditional client
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I enable repository "test_repo_rpm_pool" on this "sle_client"
     And I remove package "andromeda-dummy" from this "sle_client" without error control
     And I remove package "virgo-dummy" from this "sle_client" without error control
@@ -15,7 +15,7 @@ Feature: Action chain on traditional clients
     And I run "rhn_check -vvv" on "sle_client"
 
   Scenario: Pre-requisite: ensure the errata cache is computed before testing on traditional client
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Admin > Task Schedules"
     And I follow "errata-cache-default"
     And I follow "errata-cache-bunch"
@@ -24,7 +24,7 @@ Feature: Action chain on traditional clients
     And I wait until the table contains "FINISHED" or "SKIPPED" followed by "FINISHED" in its first rows
 
   Scenario: Pre-requisite: remove all action chains before testing on traditional client
-    Given I am logged in via XML-RPC actionchain as user "admin" and password "admin"
+    Given I am logged in via XML-RPC actionchain with the feature's user
     When I delete all action chains
     And I cancel all scheduled actions
 
@@ -83,7 +83,7 @@ Feature: Action chain on traditional clients
     Then I should see a "Action has been successfully added to the Action Chain" text
 
   Scenario: Create a configuration channel for testing action chain on traditional client
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "Create Config Channel"
     And I enter "Action Chain Channel" as "cofName"
@@ -93,7 +93,7 @@ Feature: Action chain on traditional clients
     Then I should see a "Action Chain Channel" text
 
   Scenario: Add a configuration file to configuration channel for testing action chain on traditional client
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "Action Chain Channel"
     And I follow "Create Configuration File or Directory"
@@ -105,7 +105,7 @@ Feature: Action chain on traditional clients
 
   Scenario: Subscribe system to configuration channel for testing action chain on traditional client
     Given I am on the Systems overview page of this "sle_client"
-    And I follow "Configuration" in the content area
+    When I follow "Configuration" in the content area
     And I follow "Manage Configuration Channels" in the content area
     And I follow first "Subscribe to Channels" in the content area
     And I check "Action Chain Channel" in the list
@@ -114,7 +114,7 @@ Feature: Action chain on traditional clients
     Then I should see a "Channel Subscriptions successfully changed for" text
 
   Scenario: Add a configuration file deployment to the action chain on traditional client
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "Action Chain Channel"
     And I follow "Deploy Files" in the content area
@@ -150,7 +150,7 @@ Feature: Action chain on traditional clients
     Then I should not see a "new action chain" link
 
   Scenario: Delete the action chain for traditional client
-     Given I am authorized as "admin" with password "admin"
+     Given I am authorized with the feature's user
      When I follow the left menu "Schedule > Action Chains"
      And I follow "new action chain"
      And I follow "delete action chain" in the content area
@@ -178,7 +178,7 @@ Feature: Action chain on traditional clients
     When I run "rhn_check -vvv" on "sle_client"
 
   Scenario: Create an action chain via XML-RPC
-    Given I am logged in via XML-RPC actionchain as user "admin" and password "admin"
+    Given I am logged in via XML-RPC actionchain with the feature's user
     When I call XML-RPC createChain with chainLabel "throwaway_chain"
     And I call actionchain.list_chains() if label "throwaway_chain" is there
     Then I delete the action chain
@@ -191,7 +191,7 @@ Feature: Action chain on traditional clients
     And no action chain with the label "throwaway_chain"
 
   Scenario: Add operations to the action chain via XML-RPC for traditional client
-    Given I am logged in via XML-RPC actionchain as user "admin" and password "admin"
+    Given I am logged in via XML-RPC actionchain with the feature's user
     And I want to operate on this "sle_client"
     When I call XML-RPC createChain with chainLabel "throwaway_chain"
     And I call actionchain.add_package_install()
@@ -206,20 +206,20 @@ Feature: Action chain on traditional clients
     And I delete the action chain
 
   Scenario: Run and cancel an action chain via XML-RPC
-    Given I am logged in via XML-RPC actionchain as user "admin" and password "admin"
+    Given I am logged in via XML-RPC actionchain with the feature's user
     And I want to operate on this "sle_client"
     When I call XML-RPC createChain with chainLabel "throwaway_chain"
     And I call actionchain.add_system_reboot()
     Then I should be able to see all these actions in the action chain
     When I schedule the action chain
     Then I wait until there are no more action chains
-    And I should see scheduled action, called "System reboot scheduled by admin"
+    And I should see scheduled action, called "System reboot scheduled"
     Then I cancel all scheduled actions
     And I wait until there are no more scheduled actions
     And I delete the action chain
 
   Scenario: Run an action chain via XML-RPC on traditional client
-    Given I am logged in via XML-RPC actionchain as user "admin" and password "admin"
+    Given I am logged in via XML-RPC actionchain with the feature's user
     And I want to operate on this "sle_client"
     And I run "rhn-actions-control --enable-all" on "sle_client"
     When I call XML-RPC createChain with chainLabel "multiple_scripts"
@@ -234,7 +234,7 @@ Feature: Action chain on traditional clients
     And I wait until there are no more scheduled actions
 
   Scenario: Cleanup: remove traditional client from configuration channel
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "Action Chain Channel"
     And I follow "Systems" in the content area
@@ -243,7 +243,7 @@ Feature: Action chain on traditional clients
     Then I should see a "Successfully unsubscribed 1 system(s)." text
 
   Scenario: Cleanup: remove configuration channel for traditional client
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "Action Chain Channel"
     And I follow "Delete Channel"
@@ -257,3 +257,7 @@ Feature: Action chain on traditional clients
 
   Scenario: Cleanup: remove temporary files for testing action chains on traditional client
     When I run "rm -f /tmp/action_chain.log" on "sle_client" without error control
+
+  Scenario: Cleanup: remove remaining systems from SSM after action chain tests on traditional client
+    When I am authorized with the feature's user
+    And I follow "Clear"

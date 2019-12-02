@@ -43,7 +43,7 @@ Feature: Install and upgrade package on the Ubuntu minion via Salt through the U
 
 @ubuntu_minion
   Scenario: Cleanup: remove virgo-dummy and andromeda-dummy packages from Ubuntu minion
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     And I remove package "andromeda-dummy" from this "ubuntu_ssh_minion"
     And I remove package "virgo-dummy" from this "ubuntu_ssh_minion"
     And I disable repository "test_repo_deb_pool" on this "ubuntu_ssh_minion"

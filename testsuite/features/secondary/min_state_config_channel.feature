@@ -7,7 +7,7 @@ Feature: State Configuration channels
   I want to be able to use channels from the state tab
 
   Scenario: Create the 1st state channel
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "Create State Channel"
     Then I should see a "New Config Channel" text
@@ -22,7 +22,7 @@ Feature: State Configuration channels
     And I should see a "Configuration Actions" text
 
   Scenario: Create the 2nd state channel with same name
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "Create State Channel"
     Then I should see a "New Config Channel" text
@@ -37,7 +37,7 @@ Feature: State Configuration channels
     And I should see a "Configuration Actions" text
 
   Scenario: Create the 3rd state channel with spacecmd
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I create channel "statechannel3" from spacecmd of type "state"
     When I follow the left menu "Configuration > Channels"
     Then I should see a "statechannel3" text
@@ -68,7 +68,7 @@ Feature: State Configuration channels
     Then I should see a "Apply" button
     When I click on "Apply"
     Then I should see a "Applying the config channels has been scheduled" text
-    When I wait until event "Apply states [custom] scheduled by admin" is completed
+    When I wait until event "Apply states [custom] scheduled" is completed
     And I wait until file "/root/statechannel" exists on "sle_minion"
     And I wait until file "/root/statechannel2" exists on "sle_minion"
 
@@ -90,12 +90,12 @@ Feature: State Configuration channels
     Then I should see a "State assignments have been saved." text
 
   Scenario: Apply the Configuration channel state with spacecmd
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I schedule apply configchannels for "sle_minion"
     And I wait until file "/root/statechannel3" exists on "sle_minion"
 
   Scenario: Cleanup: remove the 1st state channel and the deployed file
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow first "My State Channel"
     And I follow "Delete Channel"
@@ -105,7 +105,7 @@ Feature: State Configuration channels
     And I remove "/root/statechannel" from "sle_minion"
 
   Scenario: Cleanup: remove the 2nd state channel and the deployed file
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow first "My State Channel"
     And I follow "Delete Channel"
@@ -115,7 +115,7 @@ Feature: State Configuration channels
     And I remove "/root/statechannel2" from "sle_minion"
 
   Scenario: Cleanup: remove the 3rd state channel and the deployed file
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow first "statechannel3"
     And I follow "Delete Channel"

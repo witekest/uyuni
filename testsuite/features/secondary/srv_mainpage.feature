@@ -37,12 +37,11 @@ Feature: Main landing page options and preferences
     Then I should be logged in
 
   Scenario: Log out of SUSE Manager
-    Given I am authorized
     When I sign out
     Then I should not be authorized
 
   Scenario: Top level bar
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I go to the home page
     And I should see a "Manage" link
     And I should see a "admin" text
@@ -51,7 +50,7 @@ Feature: Main landing page options and preferences
     And I should see a Sign Out link
 
   Scenario: Main menu as regular user
-    Given I am authorized
+    Given I am authorized as "testing" with password "testing"
     Then I should see a "Home" link
     And I should see a "Systems" link
     And I should see a "Salt" link
@@ -83,7 +82,7 @@ Feature: Main landing page options and preferences
     And I should see a "External Links" link
 
   Scenario: Main content
-    Given I am authorized
+    Given I am authorized with the feature's user
     Then I should see a "Tasks" text
     And I should see a "Inactive Systems" text
     And I should see a "Most Critical Systems" text

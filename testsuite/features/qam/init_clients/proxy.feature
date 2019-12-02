@@ -13,7 +13,7 @@ Feature: Setup SUSE Manager proxy
   I want to register the proxy to the server
 
   Scenario: Bootstrap the proxy as a Salt minion
-    Given I am authorized
+    Given I am authorized with the feature's user
     And I create the "x86_64" bootstrap repository for "proxy_minion" on the server
     When I go to the bootstrapping page
     Then I should see a "Bootstrap Minions" text

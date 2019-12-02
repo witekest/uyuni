@@ -4,7 +4,7 @@
 Feature: Display patches
 
   Scenario: Pre-require: enable old packages to fake a possible installation
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I enable repository "test_repo_rpm_pool" on this "sle_client"
     And I run "zypper -n ref" on "sle_client"
     And I install old package "andromeda-dummy-1.0" on this "sle_client"

@@ -4,7 +4,7 @@
 Feature: Abort all reposync activity
 
   Scenario: Delete scheduled reposyncs
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Admin > Task Schedules"
     And I follow "mgr-sync-refresh-default"
     And I choose "disabled"

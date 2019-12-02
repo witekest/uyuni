@@ -6,7 +6,7 @@ Feature: Configuration state channels
   I want to be able to use the state channels
 
   Scenario: Create a state channel
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "Create State Channel"
     Then I should see a "New Config Channel" text
@@ -31,7 +31,7 @@ Feature: Configuration state channels
     Then I should see a "Channel Subscriptions successfully changed for" text
 
   Scenario: Salt state details
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "My State Channel"
     Then I should see a "1 system subscribed" text
@@ -47,11 +47,11 @@ Feature: Configuration state channels
     Then I should see a "Apply" button
     When I click on "Apply"
     Then I should see a "Applying the config channels has been scheduled" text
-    When I wait until event "Apply states [custom] scheduled by admin" is completed
+    When I wait until event "Apply states [custom] scheduled" is completed
     And I wait until file "/root/foobar" exists on "sle_minion"
 
   Scenario: Try to remove init.sls file
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "My State Channel"
     And I follow "View/Edit 'init.sls' File"
@@ -61,7 +61,7 @@ Feature: Configuration state channels
     And I should see a "Revision 1 of /init.sls from channel My State Channel" text
 
   Scenario: Cleanup: remove the state channel and the file
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "My State Channel"
     And I follow "Delete Channel"

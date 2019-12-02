@@ -8,7 +8,7 @@
 Feature: Bootstrap a SSH-managed CentOS 6 minion and do some basic operations on it
 
   Scenario: Bootstrap a SSH-managed CentOS 6 minion
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I go to the bootstrapping page
     Then I should see a "Bootstrap Minions" text
     When I check "manageWithSSH"
@@ -37,7 +37,7 @@ Feature: Bootstrap a SSH-managed CentOS 6 minion and do some basic operations on
     Then I should see "ceos6_ssh_minion" hostname
 
   Scenario: Prepare a SSH-managed CentOS 6 minion
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I enable SUSE Manager tools repositories on "ceos6_ssh_minion"
     When I enable repository "Devel_Galaxy_Manager_4.0_RES-Manager-Tools-6-x86_64" on this "ceos6_ssh_minion"
     And  I enable repository "SLE-Manager-Tools-RES-6-x86_64" on this "ceos6_ssh_minion"

@@ -15,7 +15,7 @@ Feature: Coexistence with user-defined states
     Given I am on the Systems overview page of this "sle_minion"
     And I am logged in via XML-RPC system as user "admin" and password "admin"
     When I schedule a highstate for "sle_minion" via XML-RPC
-    And I wait until event "Apply highstate scheduled by admin" is completed
+    And I wait until event "Apply highstate scheduled" is completed
     Then file "/tmp/test_user_defined_state" should exist on "sle_minion"
     And I logout from XML-RPC system namespace
 

@@ -154,5 +154,5 @@ Feature: Work with Union and Intersection buttons in the group list
     Then I should see a "deleted" text
 
   Scenario: Cleanup: remove remaining systems from SSM after group union and intersection tests
-    When I am authorized as "admin" with password "admin"
+    When I am authorized with the feature's user
     And I follow "Clear"

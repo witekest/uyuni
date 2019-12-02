@@ -18,7 +18,7 @@ Feature: Register a Salt minion via XML-RPC API
     And I logout from XML-RPC system namespace
 
   Scenario: Check new minion bootstrapped via XML-RPC in System Overview page
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I go to the minion onboarding page
     Then I should see a "accepted" text
     When I navigate to "rhn/systems/Overview.do" page
@@ -52,7 +52,7 @@ Feature: Register a Salt minion via XML-RPC API
     Then I should see a "Confirm Software Channel Change" text
     When I click on "Confirm"
     Then I should see a "Changing the channels has been scheduled." text
-    And I wait until event "Subscribe channels scheduled by admin" is completed
+    And I wait until event "Subscribe channels scheduled" is completed
 
   Scenario: Check events history for failures on SLES minion after XML-RPC bootstrap
     Given I am on the Systems overview page of this "sle_minion"

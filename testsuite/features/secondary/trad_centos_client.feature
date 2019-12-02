@@ -21,7 +21,7 @@ Feature: Be able to register a CentOS 7 traditional client and do some basic ope
 
 @centos_minion
   Scenario: Prepare the CentOS 7 traditional client
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I enable SUSE Manager tools repositories on "ceos_client"
     And I enable repository "CentOS-Base" on this "ceos_client"
     And I install package "hwdata m2crypto wget" on this "ceos_client"
@@ -58,7 +58,7 @@ Feature: Be able to register a CentOS 7 traditional client and do some basic ope
     Then I should see a "Confirm Software Channel Change" text
     When I click on "Confirm"
     Then I should see a "Changing the channels has been scheduled." text
-    And I wait until event "Subscribe channels scheduled by admin" is completed
+    And I wait until event "Subscribe channels scheduled" is completed
 
 @centos_minion
   Scenario: Schedule an OpenSCAP audit job for the CentOS traditional client
@@ -85,7 +85,7 @@ Feature: Be able to register a CentOS 7 traditional client and do some basic ope
 
 @centos_minion
   Scenario: Schedule some actions on the CentOS 7 traditional client
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I authenticate to XML-RPC
     And I refresh the packages on "ceos_client" through XML-RPC
     And I run a script on "ceos_client" through XML-RPC
@@ -103,7 +103,7 @@ Feature: Be able to register a CentOS 7 traditional client and do some basic ope
 
 @centos_minion
   Scenario: Cleanup: bootstrap a SSH-managed CentOS minion after traditional client tests
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I go to the bootstrapping page
     Then I should see a "Bootstrap Minions" text
     When I check "manageWithSSH"
@@ -128,4 +128,4 @@ Feature: Be able to register a CentOS 7 traditional client and do some basic ope
     Then I should see a "Confirm Software Channel Change" text
     When I click on "Confirm"
     Then I should see a "Changing the channels has been scheduled." text
-    And I wait until event "Subscribe channels scheduled by admin" is completed
+    And I wait until event "Subscribe channels scheduled" is completed

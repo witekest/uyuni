@@ -28,7 +28,7 @@ Feature: Be able to bootstrap an Ubuntu minion and do some basic operations on i
 
 @ubuntu_minion
   Scenario: Bootstrap an Ubuntu minion
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I go to the bootstrapping page
     Then I should see a "Bootstrap Minions" text
     When I enter the hostname of "ubuntu_minion" as "hostname"
@@ -72,7 +72,7 @@ Feature: Be able to bootstrap an Ubuntu minion and do some basic operations on i
     Then I should see a "Confirm Software Channel Change" text
     When I click on "Confirm"
     Then I should see a "Changing the channels has been scheduled." text
-    And I wait until event "Subscribe channels scheduled by admin" is completed
+    And I wait until event "Subscribe channels scheduled" is completed
 
 @ubuntu_minion
   Scenario: Detect latest Salt changes on the Ubuntu minion
@@ -91,7 +91,7 @@ Feature: Be able to bootstrap an Ubuntu minion and do some basic operations on i
 
 @ubuntu_minion
   Scenario: Run a remote command on the Ubuntu minion
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I follow the left menu "Salt > Remote Commands"
     Then I should see a "Remote Commands" text in the content area
     When I enter command "cat /etc/os-release"
@@ -131,7 +131,7 @@ Feature: Be able to bootstrap an Ubuntu minion and do some basic operations on i
 
 @ubuntu_minion
   Scenario: Cleanup: bootstrap a SSH-managed Ubuntu minion
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I go to the bootstrapping page
     Then I should see a "Bootstrap Minions" text
     When I check "manageWithSSH"
@@ -156,7 +156,7 @@ Feature: Be able to bootstrap an Ubuntu minion and do some basic operations on i
     Then I should see a "Confirm Software Channel Change" text
     When I click on "Confirm"
     Then I should see a "Changing the channels has been scheduled." text
-    And I wait until event "Subscribe channels scheduled by admin" is completed
+    And I wait until event "Subscribe channels scheduled" is completed
 
 # Should only be executed when step 0) is working
 #@ubuntu_minion

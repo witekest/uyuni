@@ -51,7 +51,7 @@ Feature: Power management
     And I should see the power is "On"
 
   Scenario: Check power management SSM configuration
-    Given I am authorized
+    Given I am authorized with the feature's user
     And I am on the System Overview page
     And I check the "sle_client" client
     And I am on System Set Manager Overview
@@ -74,7 +74,7 @@ Feature: Power management
     And the cobbler report contains "Power Management Type          : ipmitool"
 
   Scenario: Check power management SSM operation
-    Given I am authorized
+    Given I am authorized with the feature's user
     And I am on System Set Manager Overview
     And I follow "power management operations" in the content area
     Then I should see "sle_client" as link
@@ -86,5 +86,5 @@ Feature: Power management
     Given the server stops mocking an IPMI host
 
   Scenario: Cleanup: remove remaining systems from SSM after power management tests
-    When I am authorized as "admin" with password "admin"
+    When I am authorized with the feature's user
     And I follow "Clear"

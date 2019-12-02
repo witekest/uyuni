@@ -4,7 +4,7 @@
 Feature: System package list is updated if packages are manually installed or removed
 
   Scenario: Pre-requisite: install milkyway-dummy-1.0 package
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I enable repository "test_repo_rpm_pool" on this "sle_minion"
     And I run "zypper -n ref" on "sle_minion"
     And I install old package "milkyway-dummy-1.0" on this "sle_minion" without error control

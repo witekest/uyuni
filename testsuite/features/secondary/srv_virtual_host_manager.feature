@@ -33,7 +33,7 @@ Feature: Virtual host manager web UI
     Then I should see a "file-vmware" link
 
   Scenario: Run virtual-host-gatherer
-   Given I am authorized as "admin" with password "admin"
+   Given I am authorized with the feature's user
     When I follow the left menu "Systems"
      And I follow "Virtual Host Managers"
      And I follow "file-vmware"

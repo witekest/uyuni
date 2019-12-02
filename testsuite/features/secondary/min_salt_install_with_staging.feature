@@ -24,7 +24,7 @@ Feature: Install a package on the SLES minion with staging enabled
     Then spacecmd should show packages "virgo-dummy-1.0" installed on "sle_minion"
 
   Scenario: Pre-requisite: ensure the errata cache is computed before staging tests
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Admin > Task Schedules"
     And I follow "errata-cache-default"
     And I follow "errata-cache-bunch"
@@ -33,7 +33,7 @@ Feature: Install a package on the SLES minion with staging enabled
     Then I wait until the table contains "FINISHED" or "SKIPPED" followed by "FINISHED" in its first rows
 
   Scenario: Enable content staging
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Admin > Organizations"
     And I follow first "SUSE Test"
     And I follow first "Configuration"

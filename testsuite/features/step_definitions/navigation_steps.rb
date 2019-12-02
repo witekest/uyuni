@@ -396,6 +396,7 @@ end
 
 Given(/^I am authorized as "([^"]*)" with password "([^"]*)"$/) do |user, passwd|
   visit Capybara.app_host
+
   next if all(:xpath, "//header//span[text()='#{user}']").any?
 
   find(:xpath, "//header//i[@class='fa fa-sign-out']").click if all(:xpath, "//header//i[@class='fa fa-sign-out']").any?
@@ -407,11 +408,12 @@ Given(/^I am authorized as "([^"]*)" with password "([^"]*)"$/) do |user, passwd
   step %(I should be logged in)
 end
 
-Given(/^I am authorized$/) do
-  step %(I am authorized as "testing" with password "testing")
+Given(/^I am authorized with the feature's user$/) do
+  step %(I am authorized as "#{$username}" with password "#{$password}")
 end
 
 When(/^I sign out$/) do
+  visit Capybara.app_host
   find(:xpath, "//a[@href='/rhn/Logout.do']").click
 end
 
@@ -432,7 +434,7 @@ Then(/^I am logged in$/) do
 end
 
 Given(/^I am on the patches page$/) do
-  step %(I am authorized)
+  step %(I am authorized with the feature's user)
   visit("https://#{$server.full_hostname}/rhn/errata/RelevantErrata.do")
 end
 

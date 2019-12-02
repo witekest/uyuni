@@ -629,7 +629,7 @@ The check box can be identified by name, id or label text.
   Given I am logged in via XML-RPC channel as user "admin" and password "admin"
   Given I am logged in via XML-RPC user as user "admin" and password "admin"
   When I logout from XML-RPC user namespace
-  Given I am logged in via XML-RPC actionchain as user "admin" and password "admin"
+  Given I am logged in via XML-RPC actionchain with the feature's user
 ```
 
 * Calling various XML-RPC methods

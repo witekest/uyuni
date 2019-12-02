@@ -5,7 +5,7 @@ Feature: Be able to manage XEN virtual machines via the GUI
 
 @virthost_xen
   Scenario: Bootstrap Xen virtual host
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I go to the bootstrapping page
     Then I should see a "Bootstrap Minions" text
     When I enter the hostname of "xen_server" as "hostname"

@@ -15,12 +15,12 @@ Feature: Management of minion keys
     Then "sle_minion" should not be registered
 
   Scenario: Completeness of the onboarding page
-    Given I am authorized as "testing" with password "testing"
+    Given I am authorized with the feature's user
     And I go to the minion onboarding page
     Then I should see a "Keys" text in the content area
 
   Scenario: Minion is visible in the Pending section
-    Given I am authorized as "testing" with password "testing"
+    Given I am authorized with the feature's user
     And I restart salt-minion on "sle_minion"
     And I wait at most 10 seconds until Salt master sees "sle_minion" as "unaccepted"
     And I go to the minion onboarding page
@@ -30,7 +30,7 @@ Feature: Management of minion keys
     And I should see a "pending" text
 
   Scenario: Reject and delete the pending key
-    Given I am authorized as "testing" with password "testing"
+    Given I am authorized with the feature's user
     And I go to the minion onboarding page
     And I reject "sle_minion" from the Pending section
     And I wait at most 10 seconds until Salt master sees "sle_minion" as "rejected"
@@ -41,7 +41,7 @@ Feature: Management of minion keys
     And I refresh page until I do not see "sle_minion" hostname as text
 
   Scenario: Accepted minion shows up as a registered system
-    Given I am authorized as "testing" with password "testing"
+    Given I am authorized with the feature's user
     When I start salt-minion on "sle_minion"
     And I wait at most 10 seconds until Salt master sees "sle_minion" as "unaccepted"
     Then "sle_minion" should not be registered
@@ -53,8 +53,8 @@ Feature: Management of minion keys
     Then "sle_minion" should be registered
 
   Scenario: The minion communicates with the Salt master
-    Given I am authorized as "testing" with password "testing"
-    Then the Salt master can reach "sle_minion"
+    Given I am authorized with the feature's user
+    And the Salt master can reach "sle_minion"
     When I get OS information of "sle_minion" from the Master
     Then it should contain the OS of "sle_minion"
 
@@ -70,7 +70,7 @@ Feature: Management of minion keys
     Then "sle_minion" should not be registered
 
   Scenario: Cleanup: bootstrap again the minion
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I go to the bootstrapping page
     Then I should see a "Bootstrap Minions" text
     When I enter the hostname of "sle_minion" as "hostname"
@@ -93,7 +93,7 @@ Feature: Management of minion keys
     Then I should see a "Confirm Software Channel Change" text
     When I click on "Confirm"
     Then I should see a "Changing the channels has been scheduled." text
-    And I wait until event "Subscribe channels scheduled by admin" is completed
+    And I wait until event "Subscribe channels scheduled" is completed
 
   Scenario: Cleanup: turn the SLES minion into a container build host after new bootstrap
     Given I am on the Systems overview page of this "sle_minion"

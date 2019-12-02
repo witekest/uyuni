@@ -4,7 +4,7 @@
 Feature: Cobbler and distribution autoinstallation
 
   Background:
-    Given I am authorized
+    Given I am authorized with the feature's user
 
   Scenario: Ask cobbler to create a distribution via XML-RPC
     Given cobblerd is running

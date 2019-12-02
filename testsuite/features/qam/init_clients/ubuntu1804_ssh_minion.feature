@@ -8,7 +8,7 @@
 Feature: Bootstrap a SSH-managed Ubuntu 18.04 minion and do some basic operations on it
 
   Scenario: Bootstrap a SSH-managed Ubuntu 18.04 minion
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I go to the bootstrapping page
     Then I should see a "Bootstrap Minions" text
     When I check "manageWithSSH"

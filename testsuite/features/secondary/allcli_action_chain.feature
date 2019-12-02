@@ -6,7 +6,7 @@
 Feature: Action chains on several systems at once
 
   Scenario: Pre-requisite: downgrade packages before action chain test on several systems
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I enable repository "test_repo_rpm_pool" on this "sle_minion"
     And I enable repository "test_repo_rpm_pool" on this "sle_client"
     And I remove package "andromeda-dummy" from this "sle_client" without error control
@@ -46,12 +46,12 @@ Feature: Action chains on several systems at once
     And I wait until the table contains "FINISHED" or "SKIPPED" followed by "FINISHED" in its first rows
 
   Scenario: Pre-requisite: remove all action chains before testing on Salt minion
-    Given I am logged in via XML-RPC actionchain as user "admin" and password "admin"
+    Given I am logged in via XML-RPC actionchain with the feature's user
     When I delete all action chains
     And I cancel all scheduled actions
 
   Scenario: Add an action chain using system set manager for traditional client and Salt minion
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I am on the System Overview page
     And I check the "sle_minion" client
     And I check the "sle_client" client
@@ -91,7 +91,7 @@ Feature: Action chains on several systems at once
     Then I should see a "Action Chain new action chain has been scheduled for execution." text
 
   Scenario: Verify that the action chain from the system set manager was executed successfully
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I run "rhn_check -vvv" on "sle_client"
     And I wait until file "/tmp/action_chain_done" exists on "sle_client"
     And I wait until file "/tmp/action_chain_done" exists on "sle_minion"
@@ -109,5 +109,5 @@ Feature: Action chains on several systems at once
     And I run "rm /tmp/action_chain_done" on "sle_client" without error control
 
   Scenario: Cleanup: remove remaining systems from SSM after action chain tests on several systems
-    When I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     And I follow "Clear"

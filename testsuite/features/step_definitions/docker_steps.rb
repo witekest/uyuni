@@ -12,7 +12,7 @@ cont_op = XMLRPCImageTest.new(ENV['SERVER'])
 # retrieve minion id, needed for scheduleImageBuild call
 def retrieve_minion_id
   sysrpc = XMLRPCSystemTest.new(ENV['SERVER'])
-  sysrpc.login('admin', 'admin')
+  sysrpc.login($username, $password)
   systems = sysrpc.list_systems
   refute_nil(systems)
   minion_id = systems
@@ -31,7 +31,7 @@ When(/^I navigate to images build webpage$/) do
 end
 
 When(/^I wait at most (\d+) seconds until container "([^"]*)" is built successfully$/) do |timeout, name|
-  cont_op.login('admin', 'admin')
+  cont_op.login($username, $password)
   images_list = cont_op.list_images
   image_id = 0
   images_list.each do |element|
@@ -73,7 +73,7 @@ When(/^I check the first image$/) do
 end
 
 When(/^I schedule the build of image "([^"]*)" via XML-RPC calls$/) do |image|
-  cont_op.login('admin', 'admin')
+  cont_op.login($username, $password)
   # empty by default
   version_build = ''
   build_hostid = retrieve_minion_id
@@ -83,7 +83,7 @@ When(/^I schedule the build of image "([^"]*)" via XML-RPC calls$/) do |image|
 end
 
 When(/^I schedule the build of image "([^"]*)" with version "([^"]*)" via XML-RPC calls$/) do |image, version|
-  cont_op.login('admin', 'admin')
+  cont_op.login($username, $password)
   # empty by default
   version_build = version
   build_hostid = retrieve_minion_id
@@ -93,7 +93,7 @@ When(/^I schedule the build of image "([^"]*)" with version "([^"]*)" via XML-RP
 end
 
 When(/^I delete the image "([^"]*)" with version "([^"]*)" via XML-RPC calls$/) do |image_name_todel, version|
-  cont_op.login('admin', 'admin')
+  cont_op.login($username, $password)
   images_list = cont_op.list_images
   refute_nil(images_list, 'ERROR: no images at all were retrieved.')
   image_id = 0
@@ -110,7 +110,7 @@ When(/^I delete the image "([^"]*)" with version "([^"]*)" via XML-RPC calls$/) 
 end
 
 Then(/^the image "([^"]*)" with version "([^"]*)" doesn't exist via XML-RPC calls$/) do |image_non_exist, version|
-  cont_op.login('admin', 'admin')
+  cont_op.login($username, $password)
   images_list = cont_op.list_images
   images_list.each do |element|
     raise "#{image_non_exist} should not exist anymore" if element['name'] == image_non_exist && element['version'] == version.strip
@@ -120,13 +120,13 @@ end
 # image stores tests
 When(/^I create and delete an image store via XML-RPC$/) do
   # create and delete a store, even with invalid URI
-  cont_op.login('admin', 'admin')
+  cont_op.login($username, $password)
   cont_op.create_store('fake_store', 'https://github.com/uyuni-project/uyuni', 'registry')
   cont_op.delete_store('fake_store')
 end
 
 When(/^I list image store types and image stores via XML-RPC$/) do
-  cont_op.login('admin', 'admin')
+  cont_op.login($username, $password)
   store_typ = cont_op.list_image_store_types
   raise 'We have only type support for Registry and OS Image Store type! New method added?! please update the tests' unless store_typ.length == 2
   raise "imagestore label type should be 'registry' but is #{store_typ[0]['label']}" unless store_typ[0]['label'] == 'registry'
@@ -138,7 +138,7 @@ When(/^I list image store types and image stores via XML-RPC$/) do
 end
 
 When(/^I set and get details of image store via XML-RPC$/) do
-  cont_op.login('admin', 'admin')
+  cont_op.login($username, $password)
   # test setDetails call
   # delete if test fail in the middle. delete image doesn't raise an error if image doesn't exists
   cont_op.create_store('Norimberga', 'https://github.com/uyuni-project/uyuni', 'registry')
@@ -156,7 +156,7 @@ end
 
 # profiles tests
 When(/^I create and delete profiles via XML-RPC$/) do
-  cont_op.login('admin', 'admin')
+  cont_op.login($username, $password)
   cont_op.create_profile('fakeone', 'dockerfile', 'galaxy-registry', 'BiggerPathBiggerTest', '')
   cont_op.delete_profile('fakeone')
   cont_op.create_profile('fakeone', 'dockerfile', 'galaxy-registry', 'BiggerPathBiggerTest', '1-DOCKER-TEST')
@@ -164,7 +164,7 @@ When(/^I create and delete profiles via XML-RPC$/) do
 end
 
 When(/^I create and delete profile custom values via XML-RPC$/) do
-  cont_op.login('admin', 'admin')
+  cont_op.login($username, $password)
   cont_op.create_profile('fakeone', 'dockerfile', 'galaxy-registry', 'BiggerPathBiggerTest', '')
   cont_op.create_custom_key('arancio', 'test containers')
   values = {}
@@ -181,7 +181,7 @@ When(/^I create and delete profile custom values via XML-RPC$/) do
 end
 
 When(/^I list image profiles via XML-RPC$/) do
-  cont_op.login('admin', 'admin')
+  cont_op.login($username, $password)
   puts cont_op.list_image_profiles
   ima_profiles = cont_op.list_image_profiles
   imagelabel = ima_profiles.select { |image| image['label'] = 'fakeone' }
@@ -189,7 +189,7 @@ When(/^I list image profiles via XML-RPC$/) do
 end
 
 When(/^I set and get profile details via XML-RPC$/) do
-  cont_op.login('admin', 'admin')
+  cont_op.login($username, $password)
   details = {}
   details['storeLabel'] = 'galaxy-registry'
   details['path'] = 'TestForFun'

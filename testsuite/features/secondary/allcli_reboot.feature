@@ -25,7 +25,7 @@ Feature: Reboot systems managed by SUSE Manager
     And I should see a "Reboot system" button
     And I click on "Reboot system"
     Then I should see a "Reboot scheduled for system" text
-    When I wait at most 600 seconds until event "System reboot scheduled by admin" is completed
+    When I wait at most 600 seconds until event "System reboot scheduled" is completed
     And I should see a "Reboot completed." text
 
   Scenario: Reboot a SLES tradional client
@@ -45,7 +45,7 @@ Feature: Reboot systems managed by SUSE Manager
     And I should see a "Reboot system" button
     When I click on "Reboot system"
     Then I should see a "Reboot scheduled for system" text
-    When I wait at most 600 seconds until event "System reboot scheduled by admin" is completed
+    When I wait at most 600 seconds until event "System reboot scheduled" is completed
     Then I should see a "Reboot completed." text
 
 @ubuntu_minion
@@ -56,5 +56,5 @@ Feature: Reboot systems managed by SUSE Manager
     And I should see a "Reboot system" button
     When I click on "Reboot system"
     Then I should see a "Reboot scheduled for system" text
-    When I wait at most 600 seconds until event "System reboot scheduled by admin" is completed
+    When I wait at most 600 seconds until event "System reboot scheduled" is completed
     Then I should see a "Reboot completed." text

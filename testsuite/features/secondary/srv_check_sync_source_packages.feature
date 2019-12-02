@@ -7,7 +7,7 @@
 Feature: Check if source packages were successfully synced
 
   Background:
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Software > Channel List > All"
 
   Scenario: Check sources for noarch package

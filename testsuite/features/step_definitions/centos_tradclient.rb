@@ -8,7 +8,7 @@ require 'date'
 def wait_action_complete(actionid, timeout: DEFAULT_TIMEOUT)
   host = $server.full_hostname
   @cli = XMLRPC::Client.new2('http://' + host + '/rpc/api')
-  @sid = @cli.call('auth.login', 'admin', 'admin')
+  @sid = @cli.call('auth.login', $username, $password)
   repeat_until_timeout(timeout: timeout, message: 'Action was not found among completed actions') do
     list = @cli.call('schedule.list_completed_actions', @sid)
     break if list.any? { |a| a['id'] == actionid }
@@ -19,7 +19,7 @@ end
 When(/^I authenticate to XML-RPC$/) do
   host = $server.full_hostname
   @cli = XMLRPC::Client.new2('http://' + host + '/rpc/api')
-  @sid = @cli.call('auth.login', 'admin', 'admin')
+  @sid = @cli.call('auth.login', $username, $password)
 end
 
 When(/^I refresh the packages on "([^"]*)" through XML-RPC$/) do |host|

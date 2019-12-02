@@ -111,7 +111,7 @@ Feature: Manage a group of systems
   # CentOS minion is intentionally not removed from group
  
   Scenario: Cleanup: uninstall formula from the server
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I manually uninstall the "locale" formula from the server
 
   Scenario: Cleanup: remove the new group

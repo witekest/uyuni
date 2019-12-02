@@ -6,7 +6,7 @@ Feature: Be able to bootstrap a sle11sp4 Salt host managed via salt-ssh
 
 @ssh_minion
   Scenario: Bootstrap a sle11sp4 system managed via salt-ssh
-    Given I am authorized
+    Given I am authorized with the feature's user
     And I go to the bootstrapping page
     Then I should see a "Bootstrap Minions" text
     And I check "manageWithSSH"
@@ -47,7 +47,7 @@ Feature: Be able to bootstrap a sle11sp4 Salt host managed via salt-ssh
 
 @ssh_minion
   Scenario: Schedule errata refresh to reflect channel assignment on sle11sp4 SSH minion
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Admin > Task Schedules"
     And I follow "errata-cache-default"
     And I follow "errata-cache-bunch"

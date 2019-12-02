@@ -5,7 +5,7 @@
 Feature: Be able to bootstrap a sle15sp1 Salt host managed via salt-ssh
 
   Scenario: Bootstrap a sle15sp1 system managed via salt-ssh
-    Given I am authorized
+    Given I am authorized with the feature's user
     And I go to the bootstrapping page
     Then I should see a "Bootstrap Minions" text
     And I check "manageWithSSH"
@@ -42,7 +42,7 @@ Feature: Be able to bootstrap a sle15sp1 Salt host managed via salt-ssh
     Then I should see "sle15sp1_ssh_minion" hostname
 
   Scenario: Schedule errata refresh to reflect channel assignment on sle15sp1 SSH minion
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Admin > Task Schedules"
     And I follow "errata-cache-default"
     And I follow "errata-cache-bunch"

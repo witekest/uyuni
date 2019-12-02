@@ -5,11 +5,11 @@
 Feature: Be able to bootstrap a sle15 Salt minion via the GUI
 
   Scenario: Create the bootstrap repository for a Salt client
-    Given I am authorized
+    Given I am authorized with the feature's user
     And I create the "x86_64" bootstrap repository for "sle15_minion" on the server
 
   Scenario: Bootstrap a sle15 minion
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I go to the bootstrapping page
     Then I should see a "Bootstrap Minions" text
     When I enter the hostname of "sle15_minion" as "hostname"
@@ -22,7 +22,7 @@ Feature: Be able to bootstrap a sle15 Salt minion via the GUI
     And I wait until I see "Successfully bootstrapped host!" text
 
   Scenario: Check the new bootstrapped sle15 minion in System Overview page
-    Given I am authorized
+    Given I am authorized with the feature's user
     And I go to the minion onboarding page
     Then I should see a "accepted" text
     And the Salt master can reach "sle15_minion"
@@ -52,7 +52,7 @@ Feature: Be able to bootstrap a sle15 Salt minion via the GUI
     When I query latest Salt changes on "sle15_minion"
 
   Scenario: Run a remote command on normal sle15 minion
-    Given I am authorized as "testing" with password "testing"
+    Given I am authorized with the feature's user
     When I follow the left menu "Salt > Remote Commands"
     Then I should see a "Remote Commands" text in the content area
     When I enter command "file /tmp"

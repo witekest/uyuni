@@ -5,7 +5,7 @@
 Feature: Salt SSH action chain
 
   Scenario: Pre-requisite: downgrade repositories to lower version on SSH minion
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I enable repository "test_repo_rpm_pool" on this "ssh_minion"
     And I remove package "andromeda-dummy" from this "ssh_minion" without error control
     And I remove package "virgo-dummy" from this "ssh_minion" without error control
@@ -26,7 +26,7 @@ Feature: Salt SSH action chain
     And I click on the filter button until page does contain "andromeda-dummy-1.0" text
 
   Scenario: Pre-requisite: ensure the errata cache is computed before testing on SSH minion
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Admin > Task Schedules"
     And I follow "errata-cache-default"
     And I follow "errata-cache-bunch"
@@ -35,7 +35,7 @@ Feature: Salt SSH action chain
     And I wait until the table contains "FINISHED" or "SKIPPED" followed by "FINISHED" in its first rows
 
   Scenario: Pre-requisite: remove all action chains before testing on SSH minion
-    Given I am logged in via XML-RPC actionchain as user "admin" and password "admin"
+    Given I am logged in via XML-RPC actionchain with the feature's user
     When I delete all action chains
     And I cancel all scheduled actions
 
@@ -72,7 +72,7 @@ Feature: Salt SSH action chain
     Then I should see a "Action has been successfully added to the Action Chain" text
 
   Scenario: Create a configuration channel for testing action chain on SSH minion
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "Create Config Channel"
     And I enter "Action Chain Channel" as "cofName"
@@ -82,7 +82,7 @@ Feature: Salt SSH action chain
     Then I should see a "Action Chain Channel" text
 
   Scenario: Add a configuration file to configuration channel for testing action chain on SSH minion
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "Action Chain Channel"
     And I follow "Create Configuration File or Directory"
@@ -103,7 +103,7 @@ Feature: Salt SSH action chain
     Then I should see a "Channel Subscriptions successfully changed for" text
 
   Scenario: Add a configuration file deployment to the action chain on SSH minion
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "Action Chain Channel"
     And I follow "Deploy Files" in the content area
@@ -180,7 +180,7 @@ Feature: Salt SSH action chain
     Then I should see a "Action has been successfully added to the Action Chain" text
 
   Scenario: Delete the action chain for SSH minion
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Schedule > Action Chains"
     And I follow "new action chain"
     And I follow "delete action chain" in the content area
@@ -196,7 +196,7 @@ Feature: Salt SSH action chain
     And I follow "Software" in the content area
     And I click on "Update Package List"
     And I follow "Events" in the content area
-    And I wait until I do not see "Package List Refresh scheduled by admin" text, refreshing the page
+    And I wait until I do not see "Package List Refresh scheduled" text, refreshing the page
     And I follow "Software" in the content area
     And I follow "List / Remove" in the content area
     And I enter "andromeda-dummy" as the filtered package name
@@ -209,7 +209,7 @@ Feature: Salt SSH action chain
     And I wait until the table contains "FINISHED" or "SKIPPED" followed by "FINISHED" in its first rows
 
   Scenario: Add operations to the action chain via XML-RPC for SSH minions
-    Given I am logged in via XML-RPC actionchain as user "admin" and password "admin"
+    Given I am logged in via XML-RPC actionchain with the feature's user
     And I want to operate on this "ssh_minion"
     When I call XML-RPC createChain with chainLabel "throwaway_chain"
     And I call actionchain.add_package_install()
@@ -223,7 +223,7 @@ Feature: Salt SSH action chain
     And I delete the action chain
 
   Scenario: Run an action chain via XML-RPC on SSH minion
-    Given I am logged in via XML-RPC actionchain as user "admin" and password "admin"
+    Given I am logged in via XML-RPC actionchain with the feature's user
     And I want to operate on this "ssh_minion"
     When I call XML-RPC createChain with chainLabel "multiple_scripts"
     And I call actionchain.add_script_run() with the script "echo -n 1 >> /tmp/action_chain.log"
@@ -238,7 +238,7 @@ Feature: Salt SSH action chain
     And I wait until there are no more scheduled actions
 
   Scenario: Cleanup: remove SSH minion from configuration channel
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "Action Chain Channel"
     And I follow "Systems" in the content area
@@ -247,7 +247,7 @@ Feature: Salt SSH action chain
     Then I should see a "Successfully unsubscribed 1 system(s)." text
 
   Scenario: Cleanup: remove configuration channel for SSH minion
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Configuration > Channels"
     And I follow "Action Chain Channel"
     And I follow "Delete Channel"
@@ -264,3 +264,7 @@ Feature: Salt SSH action chain
     And I run "rm -f /tmp/action_chain_done" on "ssh_minion" without error control
     And I run "rm -f /etc/action-chain.cnf" on "ssh_minion" without error control
     And I run "rm -f /tmp/action_chain_one_system_done" on "ssh_minion" without error control
+
+  Scenario: Cleanup: remove remaining systems from SSM after action chain tests on SSH minion
+    When I am authorized with the feature's user
+    And I follow "Clear"

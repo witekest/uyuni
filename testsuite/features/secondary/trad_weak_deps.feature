@@ -4,7 +4,7 @@
 Feature: Weak dependencies in the package page and in the metadata on the client
 
   Background:
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Software > Channel List > All"
 
   Scenario: Pre-requisite: remove packages before weak-dependancies test

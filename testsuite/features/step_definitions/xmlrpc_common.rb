@@ -317,6 +317,13 @@ Given(/^I am logged in via XML\-RPC actionchain as user "(.*?)" and password "(.
   scdrpc.login(luser, password)
 end
 
+Given(/^I am logged in via XML\-RPC actionchain with the feature's user$/) do
+  # Authenticate
+  rpc.login($username, $password)
+  syschaintest.login($username, $password)
+  scdrpc.login($username, $password)
+end
+
 Given(/^I want to operate on this "([^"]*)"$/) do |host|
   system_name = get_system_name(host)
   $client_id = syschaintest.search_by_name(system_name).first['id']
@@ -469,7 +476,7 @@ end
 
 Then(/^I should see scheduled action, called "(.*?)"$/) do |label|
   assert_includes(
-    scdrpc.list_in_progress_actions.map { |a| a['name'] }, label
+      label, scdrpc.list_in_progress_actions.map { |a| a['name'] }
   )
 end
 

@@ -8,7 +8,7 @@
 Feature: Bootstrap a CentOS 7 minion and do some basic operations on it
 
   Scenario: Bootstrap a CentOS 7 minion
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I go to the bootstrapping page
     Then I should see a "Bootstrap Minions" text
     When I check "manageWithSSH"
@@ -37,7 +37,7 @@ Feature: Bootstrap a CentOS 7 minion and do some basic operations on it
     Then I should see "ceos7_minion" hostname
 
   Scenario: Prepare a CentOS 7 minion
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I enable SUSE Manager tools repositories on "ceos7_minion"
     When I enable repository "Devel_Galaxy_Manager_4.0_RES-Manager-Tools-7-x86_64" on this "ceos7_minion"
     And  I enable repository "SLE-Manager-Tools-RES-7-x86_64" on this "ceos7_minion"

@@ -4,7 +4,7 @@
 Feature: Salt package states
 
   Scenario: Pre-requisite: install old packages on SLES minion
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     Then I apply highstate on "sle_minion"
     And I enable repository "test_repo_rpm_pool" on this "sle_minion"
     And I run "zypper -n ref" on "sle_minion"

@@ -50,7 +50,7 @@ Feature: Build image with authenticated registry
     And I should see a "Image store has been deleted." text
 
   Scenario: Cleanup: delete portus image
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I delete the image "portus_profile" with version "latest" via XML-RPC calls
 
   Scenario: Cleanup: kill stale portus image build jobs

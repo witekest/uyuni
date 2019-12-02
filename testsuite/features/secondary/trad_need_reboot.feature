@@ -10,7 +10,7 @@ Feature: Reboot required after patch
   I want to see systems that need a reboot
 
   Scenario: Check requiring reboot link in the web UI
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I follow the left menu "Systems > System List"
     Then I should see a "Requiring Reboot" link in the left menu
 
@@ -19,7 +19,7 @@ Feature: Reboot required after patch
     Then I should not see a "The system requires a reboot" text
 
   Scenario: Enable old packages to test a "needing reboot"
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I enable repository "test_repo_rpm_pool" on this "sle_client"
     And I run "zypper -n ref" on "sle_client"
     And I install old package "andromeda-dummy-1.0" on this "sle_client"

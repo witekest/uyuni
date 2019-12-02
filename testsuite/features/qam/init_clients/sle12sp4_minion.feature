@@ -5,11 +5,11 @@
 Feature: Be able to bootstrap a sle12sp4 Salt minion via the GUI
 
   Scenario: Create the bootstrap repository for a Salt client
-    Given I am authorized
+    Given I am authorized with the feature's user
     And I create the "x86_64" bootstrap repository for "sle12sp4_minion" on the server
 
   Scenario: Bootstrap a sle12sp4 minion
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I go to the bootstrapping page
     Then I should see a "Bootstrap Minions" text
     When I enter the hostname of "sle12sp4_minion" as "hostname"
@@ -22,7 +22,7 @@ Feature: Be able to bootstrap a sle12sp4 Salt minion via the GUI
     And I wait until I see "Successfully bootstrapped host!" text
 
   Scenario: Check the new bootstrapped sle12sp4 minion in System Overview page
-    Given I am authorized
+    Given I am authorized with the feature's user
     And I go to the minion onboarding page
     Then I should see a "accepted" text
     And the Salt master can reach "sle12sp4_minion"

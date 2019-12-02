@@ -124,5 +124,5 @@ Feature: Clone a channel
     And I should see a "has been deleted." text
 
   Scenario: Cleanup: remove remaining systems from SSM after channel cloning tests
-    When I am authorized as "admin" with password "admin"
+    When I am authorized with the feature's user
     And I follow "Clear"

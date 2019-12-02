@@ -15,11 +15,11 @@ Feature: Migrate a traditional client into a Salt SSH minion
     And I click on "Confirm"
     And I run "rhn_check -vvv" on "sle_client"
     Then I should see a "1 package install has been scheduled for" text
-    When I wait until event "Package Install/Upgrade scheduled by admin" is completed
+    When I wait until event "Package Install/Upgrade scheduled" is completed
     Then "orion-dummy-1.1-1.1" should be installed on "sle_client"
 
   Scenario: Change contact method of activation key to ssh-push
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Systems > Activation Keys"
     And I follow "SUSE Test PKG Key x86_64" in the content area
     And I select "Push via SSH" from "contactMethodId"
@@ -27,7 +27,7 @@ Feature: Migrate a traditional client into a Salt SSH minion
     Then I should see a "Activation key SUSE Test PKG Key x86_64 has been modified" text
 
   Scenario: Migrate a SLES client into a Salt SSH minion
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I go to the bootstrapping page
     And I enter the hostname of "sle_client" as "hostname"
     And I enter "22" as "port"
@@ -121,7 +121,7 @@ Feature: Migrate a traditional client into a Salt SSH minion
     And I register using "1-SUSE-DEV-x86_64" key
 
   Scenario: Cleanup: change contact method of activation key back to default
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Systems > Activation Keys"
     And I follow "SUSE Test PKG Key x86_64" in the content area
     And I select "Default" from "contactMethodId"

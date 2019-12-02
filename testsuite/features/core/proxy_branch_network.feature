@@ -165,7 +165,7 @@ Feature: Setup SUSE Manager for Retail branch network
     Given I am on the Systems overview page of this "proxy"
     When I follow "States" in the content area
     And I click on "Apply Highstate"
-    And I wait until event "Apply highstate scheduled by admin" is completed
+    And I wait until event "Apply highstate scheduled" is completed
     And I disable repositories after installing branch server
     Then service "dhcpd" is enabled on "proxy"
     And service "dhcpd" is active on "proxy"

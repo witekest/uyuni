@@ -7,12 +7,12 @@ Feature: Use salt formulas
   I want to be able to install and use salt formulas
 
   Scenario: Install the locale formula package on the server
-     Given I am authorized
+     Given I am authorized with the feature's user
      When I manually install the "locale" formula on the server
      And I synchronize all Salt dynamic modules on "sle_minion"
 
   Scenario: The new formula appears on the server
-     Given I am authorized
+     Given I am authorized with the feature's user
      When I follow the left menu "Salt > Formula Catalog"
      Then I should see a "locale" text in the content area
 
@@ -56,14 +56,14 @@ Feature: Use salt formulas
      When I click on the "disabled" toggler
      And I click on "Apply Highstate"
      Then I should see a "Applying the highstate has been scheduled." text
-     And I wait until event "Apply highstate in test-mode scheduled by admin" is completed
+     And I wait until event "Apply highstate in test-mode scheduled" is completed
 
   Scenario: Apply the parametrized formula via the highstate
      Given I am on the Systems overview page of this "sle_minion"
      And I follow "States" in the content area
      And I click on "Apply Highstate"
      Then I should see a "Applying the highstate has been scheduled." text
-     When I wait until event "Apply highstate scheduled by admin" is completed
+     When I wait until event "Apply highstate scheduled" is completed
      Then the timezone on "sle_minion" should be "+05"
      And the keymap on "sle_minion" should be "ca.map.gz"
      And the language on "sle_minion" should be "fr_FR.UTF-8"
@@ -88,7 +88,7 @@ Feature: Use salt formulas
      And I follow "States" in the content area
      And I click on "Apply Highstate"
      Then I should see a "Applying the highstate has been scheduled." text
-     When I wait until event "Apply highstate scheduled by admin" is completed
+     When I wait until event "Apply highstate scheduled" is completed
      Then the timezone on "sle_minion" should be "CET"
      And the keymap on "sle_minion" should be "us.map.gz"
      And the language on "sle_minion" should be "en_US.UTF-8"
@@ -154,15 +154,15 @@ Feature: Use salt formulas
      And I follow "States" in the content area
      And I click on "Apply Highstate"
      Then I should see a "Applying the highstate has been scheduled." text
-     When I wait until event "Apply highstate scheduled by admin" is completed
+     When I wait until event "Apply highstate scheduled" is completed
      Then the timezone on "sle_minion" should be "CET"
      And the keymap on "sle_minion" should be "us.map.gz"
      And the language on "sle_minion" should be "en_US.UTF-8"
 
   Scenario: Cleanup: uninstall formula package from the server
-     Given I am authorized
+     Given I am authorized with the feature's user
      And I manually uninstall the "locale" formula from the server
 
   Scenario: Cleanup: remove remaining systems from SSM after formula tests
-     When I am authorized as "admin" with password "admin"
+     When I am authorized with the feature's user
      And I follow "Clear"

@@ -17,7 +17,7 @@ Feature: Install a package to the traditional client
     And I click on "Confirm"
     And I run "rhn_check -vvv" on "sle_client"
     Then I should see a "1 package install has been scheduled for" text
-    When I wait until event "Package Install/Upgrade scheduled by admin" is completed
+    When I wait until event "Package Install/Upgrade scheduled" is completed
     Then "virgo-dummy-2.0-1.1" should be installed on "sle_client"
 
   Scenario: Enable old packages for testing a patch install
@@ -26,7 +26,7 @@ Feature: Install a package to the traditional client
     And I run "rhn_check -vvv" on "sle_client"
 
   Scenario: Schedule errata refresh after reverting to old package
-    Given I am authorized as "admin" with password "admin"
+    Given I am authorized with the feature's user
     When I follow the left menu "Admin > Task Schedules"
     And I follow "errata-cache-default"
     And I follow "errata-cache-bunch"
@@ -43,7 +43,7 @@ Feature: Install a package to the traditional client
     And I click on "Confirm"
     And I run "rhn_check -vvv" on "sle_client"
     Then I should see a "1 patch update has been scheduled for" text
-    When I wait until event "Package Install/Upgrade scheduled by admin" is completed
+    When I wait until event "Package Install/Upgrade scheduled" is completed
     Then "andromeda-dummy-2.0-1.1" should be installed on "sle_client"
     And The metadata buildtime from package "andromeda-dummy" match the one in the rpm on "sle_client"
 

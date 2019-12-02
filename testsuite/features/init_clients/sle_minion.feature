@@ -4,11 +4,11 @@
 Feature: Be able to bootstrap a Salt minion via the GUI
 
   Scenario: Create the bootstrap repository for a Salt client
-     Given I am authorized
+     Given I am authorized with the feature's user
      And I create the "x86_64" bootstrap repository for "sle_minion" on the server
 
   Scenario: Bootstrap a SLES minion
-     Given I am authorized
+     Given I am authorized with the feature's user
      When I go to the bootstrapping page
      Then I should see a "Bootstrap Minions" text
      When I enter the hostname of "sle_minion" as "hostname"
@@ -20,7 +20,7 @@ Feature: Be able to bootstrap a Salt minion via the GUI
      And I wait until I see "Successfully bootstrapped host!" text
 
   Scenario: Check the new bootstrapped minion in System Overview page
-    Given I am authorized
+    Given I am authorized with the feature's user
     When I go to the minion onboarding page
     Then I should see a "accepted" text
     When I navigate to "rhn/systems/Overview.do" page
@@ -53,7 +53,7 @@ Feature: Be able to bootstrap a Salt minion via the GUI
     Then I should see a "Confirm Software Channel Change" text
     When I click on "Confirm"
     Then I should see a "Changing the channels has been scheduled." text
-    And I wait until event "Subscribe channels scheduled by admin" is completed
+    And I wait until event "Subscribe channels scheduled" is completed
 
   # bsc#1085436 - Apache returns 403 Forbidden after a zypper refresh on minion
   Scenario: Check the new channel is working

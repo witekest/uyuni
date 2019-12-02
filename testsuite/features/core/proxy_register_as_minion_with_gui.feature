@@ -13,7 +13,7 @@ Feature: Setup SUSE Manager proxy
 
 @proxy
   Scenario: Bootstrap the proxy as a Salt minion
-    Given I am authorized
+    Given I am authorized as "admin" with password "admin"
     When I go to the bootstrapping page
     Then I should see a "Bootstrap Minions" text
     When I enter the hostname of "proxy" as "hostname"
@@ -25,7 +25,7 @@ Feature: Setup SUSE Manager proxy
 
 @proxy
   Scenario: Wait until the proxy appears
-    Given I am authorized
+    Given I am authorized as "admin" with password "admin"
     When I wait until onboarding is completed for "proxy"
 
 @proxy

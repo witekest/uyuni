@@ -5,7 +5,7 @@ Feature: Be able to bootstrap a Salt host managed via salt-ssh
 
 @ssh_minion
   Scenario: Bootstrap a SLES system managed via salt-ssh
-    Given I am authorized
+    Given I am authorized with the feature's user
     And I go to the bootstrapping page
     Then I should see a "Bootstrap Minions" text
     And I check "manageWithSSH"
@@ -55,7 +55,7 @@ Feature: Be able to bootstrap a Salt host managed via salt-ssh
     Then I should see a "Confirm Software Channel Change" text
     When I click on "Confirm"
     Then I should see a "Changing the channels has been scheduled." text
-    And I wait until event "Subscribe channels scheduled by admin" is completed
+    And I wait until event "Subscribe channels scheduled" is completed
 
 @ssh_minion
   Scenario: Check events history for failures on SSH minion
