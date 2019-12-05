@@ -268,11 +268,9 @@ public class FormulaHandler extends BaseHandler {
                 throw new InvalidParameterException("Group doesn't have formula assigned, please assign it" +
                         "first and try again");
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new IOFaultException(e);
-        }
-        catch (InvalidFormulaException e) {
+        } catch (InvalidFormulaException e) {
             throw new ValidationException(e.getMessage());
         }
         return 1;
