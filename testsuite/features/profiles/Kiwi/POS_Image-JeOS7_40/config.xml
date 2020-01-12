@@ -64,6 +64,9 @@
     <repository type="rpm-md">  <!-- 4.0 development client toools -->
         <source path="http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/SLE15-SUSE-Manager-Tools/SLE_15/"/>
     </repository>
+    <repository type="rpm-md" priority="50">
+        <source path="http://download.suse.de/ibs/Devel:/SLEPOS:/SUSE-Manager-Retail:/Head:/PRs:/PR-17/SLE_15_SP1/"/>
+    </repository>
 
     <packages type="image">
         <package name="patterns-base-minimal_base"/>
