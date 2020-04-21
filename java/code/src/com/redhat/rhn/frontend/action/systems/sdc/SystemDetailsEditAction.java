@@ -46,6 +46,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.util.LabelValueBean;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -287,7 +288,13 @@ public class SystemDetailsEditAction extends RhnAction {
                     // Handle monitoring enablement
                     s.asMinionServer().ifPresent(minion -> {
                         if (EntitlementManager.MONITORING.equals(e)) {
-                            FormulaManager.getInstance().enableMonitoringOnEntitlementAdd(minion);
+                            try {
+                                FormulaManager.getInstance().enableMonitoringOnEntitlementAdd(minion);
+                            }
+                            catch (IOException ioe) {
+                                log.error("Error enabling monitoring: " + ioe.getMessage());
+                                createErrorMessage(request, "system.entitle.formula_error", null);
+                            }
                         }
                     });
                 }
@@ -303,7 +310,13 @@ public class SystemDetailsEditAction extends RhnAction {
                 // Handle monitoring disablement
                 s.asMinionServer().ifPresent(minion -> {
                     if (EntitlementManager.MONITORING.equals(e)) {
-                        FormulaManager.getInstance().disableMonitoringOnEntitlementRemoval(minion);
+                        try {
+                            FormulaManager.getInstance().disableMonitoringOnEntitlementRemoval(minion);
+                        }
+                        catch (IOException ioe) {
+                            log.error("Error disabling monitoring: " + ioe.getMessage());
+                            createErrorMessage(request, "system.entitle.formula_error", null);
+                        }
                     }
                 });
             }

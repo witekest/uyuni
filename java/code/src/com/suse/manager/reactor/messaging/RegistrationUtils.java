@@ -62,6 +62,7 @@ import com.suse.salt.netapi.calls.modules.Zypper;
 import com.suse.utils.Opt;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -217,7 +218,12 @@ public class RegistrationUtils {
                     // Handle monitoring enablement
                     server.asMinionServer().ifPresent(minion -> {
                         if (EntitlementManager.MONITORING.equals(e)) {
-                            FormulaManager.getInstance().enableMonitoringOnEntitlementAdd(minion);
+                            try {
+                                FormulaManager.getInstance().enableMonitoringOnEntitlementAdd(minion);
+                            }
+                            catch (IOException ioe) {
+                                LOG.error("Error enabling monitoring: " + ioe.getMessage());
+                            }
                         }
                     });
                 }

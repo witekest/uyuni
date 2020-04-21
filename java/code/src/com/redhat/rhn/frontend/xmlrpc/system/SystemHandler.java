@@ -4894,7 +4894,12 @@ public class SystemHandler extends BaseHandler {
                     // Handle monitoring enablement
                     server.asMinionServer().ifPresent(minion -> {
                         if (EntitlementManager.MONITORING.equals(ent)) {
-                            FormulaManager.getInstance().enableMonitoringOnEntitlementAdd(minion);
+                            try {
+                                FormulaManager.getInstance().enableMonitoringOnEntitlementAdd(minion);
+                            }
+                            catch (IOException e) {
+                                log.error("Error enabling monitoring: " + e.getMessage());
+                            }
                         }
                     });
                 }
@@ -4962,7 +4967,12 @@ public class SystemHandler extends BaseHandler {
             // Handle monitoring disablement
             server.asMinionServer().ifPresent(minion -> {
                 if (EntitlementManager.MONITORING.equals(ent)) {
-                    FormulaManager.getInstance().disableMonitoringOnEntitlementRemoval(minion);
+                    try {
+                        FormulaManager.getInstance().disableMonitoringOnEntitlementRemoval(minion);
+                    }
+                    catch (IOException e) {
+                        log.error("Error disabling monitoring: " + e.getMessage());
+                    }
                 }
             });
         }

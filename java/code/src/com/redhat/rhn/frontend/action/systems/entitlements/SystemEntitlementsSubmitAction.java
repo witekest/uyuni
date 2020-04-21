@@ -41,6 +41,7 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
 
+import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -168,7 +169,7 @@ public class SystemEntitlementsSubmitAction extends
         int failureCount = 0;
 
         StrutsDelegate strutsDelegate = getStrutsDelegate();
-
+        ActionMessages msg = new ActionMessages();
         Entitlement ent = findAddOnEntitlement(formIn);
 
         //Go through the set of systems to which we should add the entitlement
@@ -193,7 +194,13 @@ public class SystemEntitlementsSubmitAction extends
                                 // Handle monitoring enablement
                                 server.asMinionServer().ifPresent(minion -> {
                                     if (EntitlementManager.MONITORING.equals(ent)) {
-                                        FormulaManager.getInstance().enableMonitoringOnEntitlementAdd(minion);
+                                        try {
+                                            FormulaManager.getInstance().enableMonitoringOnEntitlementAdd(minion);
+                                        }
+                                        catch (IOException e) {
+                                            ActionMessage m = new ActionMessage("system.entitle.formula_error");
+                                            msg.add(ActionMessages.GLOBAL_MESSAGE, m);
+                                        }
                                     }
                                 });
                             }
@@ -215,15 +222,19 @@ public class SystemEntitlementsSubmitAction extends
                     // Handle monitoring disablement
                     server.asMinionServer().ifPresent(minion -> {
                         if (EntitlementManager.MONITORING.equals(ent)) {
-                            FormulaManager.getInstance().disableMonitoringOnEntitlementRemoval(minion);
+                            try {
+                                FormulaManager.getInstance().disableMonitoringOnEntitlementRemoval(minion);
+                            }
+                            catch (IOException e) {
+                                ActionMessage m = new ActionMessage("system.entitle.formula_error");
+                                msg.add(ActionMessages.GLOBAL_MESSAGE, m);
+                            }
                         }
                     });
                 }
             } //else
 
         } //for
-
-        ActionMessages msg = new ActionMessages();
 
         String prefix = getSetDecl().getLabel() + ".addon";
         if (!add) {
