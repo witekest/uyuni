@@ -33,7 +33,7 @@ CREATE TABLE rhnActionType
                           DEFAULT ('N') NOT NULL
                           CONSTRAINT rhn_action_type_mtmode_ck
                               CHECK (maintenance_mode_only in ('Y','N'))
-))
+)
 ;
 
 CREATE UNIQUE INDEX rhn_action_type_label_uq
