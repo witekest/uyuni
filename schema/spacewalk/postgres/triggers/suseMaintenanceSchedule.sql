@@ -8,7 +8,7 @@
 -- along with this software; if not, see
 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
 --
--- triggers for suseVirtualHostManager
+-- triggers for suseMaintenanceSchedule
 
 create or replace function suse_mtsched_mod_trig_fun() returns trigger as
 $$
