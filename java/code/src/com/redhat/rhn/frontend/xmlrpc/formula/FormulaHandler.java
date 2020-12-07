@@ -239,6 +239,25 @@ public class FormulaHandler extends BaseHandler {
     }
 
     /**
+     * Get the saved data for all formulas applied to the systems whose IDs match with the passed systems IDs
+     * and all of the groups those systems are member of.
+     *
+     * @param loggedInUser The current user
+     * @param systemIDs The system IDs
+     * @return a list containing the saved data for all formulas applied on the passed system IDs.
+     *
+     * @xmlrpc.param #session_key()
+     * @xmlrpc.param #array_single("int", "systemID")
+     * @xmlrpc.returntype
+     *   #array_begin()
+     *     struct String, $FormulaDataSerializer
+     *   #array_end()
+     */
+    public List<Map<String, FormulaData>> getCombinedFormulaDataByServerIds(User loggedInUser, List<Integer> systemIDs) {
+        return this.formulaManager.getCombinedFormulaDataForSystems(loggedInUser, systemIDs);
+    }
+
+    /**
      * Get the saved data for the specific formula against specific group
      *
      * @param loggedInUser user

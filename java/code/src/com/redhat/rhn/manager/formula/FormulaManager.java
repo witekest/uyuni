@@ -348,6 +348,15 @@ public class FormulaManager {
                 .collect(Collectors.toList());
     }
 
+    public List<Map<String, FormulaData>> getCombinedFormulaDataForSystems(User user, List<Integer> systemIDs) {
+        return systemIDs.stream()
+                .map(Integer::longValue)
+                .map(sID -> FormulaFactory.getCombinedFormulasByServerId(sID).stream()
+                .collect(Collectors.toMap(formula -> formula,
+                        formula -> getCombinedFormulaDataForSystems(user, List.of(sID), formula).get(0))))
+                .collect(Collectors.toList());
+    }
+
     private FormulaData getCombinedFormulaDataForSystem(MinionIds minionID,
             Optional<List<SystemGroupID>> managedSystemGroups, Map<Long, Map<String, Object>> groupsFormulaData,
             String formulaName) {
