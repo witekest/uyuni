@@ -45,6 +45,7 @@ import com.redhat.rhn.domain.channel.ChannelArch;
 import com.redhat.rhn.domain.channel.ChannelFactory;
 import com.redhat.rhn.domain.channel.ClonedChannel;
 import com.redhat.rhn.domain.channel.NoBaseChannelFoundException;
+import com.redhat.rhn.domain.dto.EndpointInfo;
 import com.redhat.rhn.domain.dto.SystemGroupsDTO;
 import com.redhat.rhn.domain.entitlement.Entitlement;
 import com.redhat.rhn.domain.errata.Errata;
@@ -172,6 +173,7 @@ import com.redhat.rhn.taskomatic.TaskomaticApi;
 
 import com.suse.manager.webui.utils.gson.BootstrapParameters;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.cobbler.SystemRecord;
@@ -7619,4 +7621,7 @@ public class SystemHandler extends BaseHandler {
         return StringUtils.isEmpty(activationKey) ? Collections.emptyList() : List.of(activationKey);
     }
 
+    public List<EndpointInfo> listEndpoints(User loggedInUser, List<Integer> systemIDs){
+        throw new NotImplementedException("TODO");
+    }
 }
