@@ -7620,8 +7620,4 @@ public class SystemHandler extends BaseHandler {
     private static List<String> maybeActivationKeys(String activationKey) {
         return StringUtils.isEmpty(activationKey) ? Collections.emptyList() : List.of(activationKey);
     }
-
-    public List<EndpointInfo> listEndpoints(User loggedInUser, List<Integer> systemIDs){
-        throw new NotImplementedException("TODO");
-    }
 }

@@ -17,6 +17,8 @@ package com.redhat.rhn.domain.formula;
 import com.redhat.rhn.GlobalInstanceHolder;
 import com.redhat.rhn.common.validator.ValidatorError;
 import com.redhat.rhn.common.validator.ValidatorException;
+import com.redhat.rhn.domain.dto.EndpointInfo;
+import com.redhat.rhn.domain.dto.FormulaData;
 import com.redhat.rhn.domain.org.Org;
 import com.redhat.rhn.domain.server.MinionServer;
 import com.redhat.rhn.domain.server.MinionServerFactory;
@@ -60,7 +62,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
-
 
 /**
  * Factory class for working with formulas.
@@ -1099,4 +1100,68 @@ public class FormulaFactory {
         return dataDir + PILLAR_DIR;
     }
 
+    public static List<EndpointInfo> getEndpointsFromFormulaData(String formulaName, FormulaData formulaData) {
+        List<EndpointInfo> endpointInfos = new ArrayList<>();
+        endpointInfos.addAll(getExportersEndpoints(formulaData));
+        endpointInfos.addAll(getApplicationEndpoints(formulaName, formulaData));
+        return endpointInfos;
+    }
+
+    private static List<EndpointInfo> getApplicationEndpoints(String formulaName, FormulaData formulaData) {
+        // TODO
+        return Collections.emptyList();
+    }
+
+    private static List<EndpointInfo> getExportersEndpoints(FormulaData formulaData) {
+        List<EndpointInfo> endpointInfos = new ArrayList<>();
+        Map<String, Object> formulaValues = formulaData.getFormulaValues();
+        if (formulaValues.containsKey("exporters")) {
+            Optional<Boolean> proxyEnabled = getValueByPath(formulaValues, "proxy_enabled")
+                    .filter(Boolean.class::isInstance)
+                    .map(Boolean.class::cast);
+            Optional<Integer> proxyPort = Optional.empty();
+            if (proxyEnabled.isPresent() && proxyEnabled.get()) {
+                proxyPort = getValueByPath(formulaValues, "proxy_port")
+                        .filter(Integer.class::isInstance)
+                        .map(Integer.class::cast);
+            }
+
+            Map<String, Object> exportersMap = getValueByPath(formulaValues, "exporters")
+                    .filter(Map.class::isInstance)
+                    .map(Map.class::cast).get();
+
+            for (Map.Entry<String, Object> exporterEntry : exportersMap.entrySet()) {
+                Map<String, Object> exporterConfigMap = Optional.ofNullable(exporterEntry.getValue())
+                        .filter(Map.class::isInstance)
+                        .map(Map.class::cast).get();
+                Boolean exporterEnabled = Optional.ofNullable(exporterConfigMap.getOrDefault("enabled", false))
+                        .filter(Boolean.class::isInstance)
+                        .map(Boolean.class::cast).get();
+                if (exporterEnabled) {
+                    ExporterConfig exporterConfig = new ExporterConfig(
+                            exporterEntry.getKey(),
+                            Optional.ofNullable(exporterConfigMap.getOrDefault("address", null))
+                                    .filter(String.class::isInstance).map(String.class::cast).get(),
+                            Optional.ofNullable(exporterConfigMap.getOrDefault("args", null))
+                                    .filter(String.class::isInstance).map(String.class::cast).get());
+                    EndpointInfo endpointInfo = new EndpointInfo(
+                            formulaData.getSystemID(),
+                            Optional.ofNullable(exporterConfigMap.getOrDefault("name", exporterConfig.getName()))
+                                    .filter(String.class::isInstance).map(String.class::cast).get());
+                    endpointInfo.setExporterName(endpointInfo.getEndpointName());
+                    endpointInfo.setPort(proxyPort.orElse(exporterConfig.getPort()));
+                    if (proxyEnabled.isPresent() && proxyEnabled.get()) {
+                        endpointInfo.setModule(Optional.ofNullable(
+                                exporterConfigMap.getOrDefault("proxy_module", endpointInfo.getEndpointName()))
+                                .filter(String.class::isInstance).map(String.class::cast).get());
+                        endpointInfo.setPath("/proxy");
+                    }
+
+                    endpointInfos.add(endpointInfo);
+                }
+            }
+        }
+
+        return endpointInfos;
+    }
 }

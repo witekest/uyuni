@@ -22,6 +22,7 @@ import com.redhat.rhn.common.localization.LocalizationService;
 import com.redhat.rhn.common.security.PermissionException;
 
 import com.redhat.rhn.common.validator.ValidatorException;
+import com.redhat.rhn.domain.dto.EndpointInfo;
 import com.redhat.rhn.domain.server.Server;
 import com.redhat.rhn.domain.server.ServerFactory;
 import com.redhat.rhn.domain.server.MinionServerFactory;
@@ -253,8 +254,8 @@ public class FormulaHandler extends BaseHandler {
      *     struct String, $FormulaDataSerializer
      *   #array_end()
      */
-    public List<Map<String, FormulaData>> getCombinedFormulaDataByServerIds(User loggedInUser, List<Integer> systemIDs) {
-        return this.formulaManager.getCombinedFormulaDataForSystems(loggedInUser, systemIDs);
+    public List<EndpointInfo> listEndpoints(User loggedInUser, List<Long> systemIDs) {
+        return this.formulaManager.listEndpoints(systemIDs);
     }
 
     /**
