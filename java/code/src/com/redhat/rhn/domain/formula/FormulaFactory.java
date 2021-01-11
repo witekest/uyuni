@@ -1122,8 +1122,9 @@ public class FormulaFactory {
             Optional<Integer> proxyPort = Optional.empty();
             if (proxyEnabled.isPresent() && proxyEnabled.get()) {
                 proxyPort = getValueByPath(formulaValues, "proxy_port")
-                        .filter(Integer.class::isInstance)
-                        .map(Integer.class::cast);
+                        .filter(Number.class::isInstance)
+                        .map(Number.class::cast)
+                        .map(Number::intValue);
             }
 
             Map<String, Object> exportersMap = getValueByPath(formulaValues, "exporters")
