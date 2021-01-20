@@ -14,7 +14,10 @@
  */
 package com.redhat.rhn.manager.formula;
 
-import static com.redhat.rhn.domain.formula.FormulaFactory.*;
+import static com.redhat.rhn.domain.formula.FormulaFactory.getEndpointsFromFormulaData;
+import static com.redhat.rhn.domain.formula.FormulaFactory.getFormulasByGroupId;
+import static com.redhat.rhn.domain.formula.FormulaFactory.getFormulasByMinionId;
+import static com.redhat.rhn.domain.formula.FormulaFactory.getGroupFormulaValuesByNameAndGroupId;
 
 import com.redhat.rhn.domain.dto.EndpointInfo;
 import com.redhat.rhn.domain.dto.FormulaData;
@@ -298,7 +301,7 @@ public class FormulaManager {
      * @return True/False based upon group has formulas assigned to it
      */
     public boolean hasGroupFormulaAssigned(String formulaName, Long groupId) {
-        return FormulaFactory.getFormulasByGroupId(groupId).contains(formulaName);
+        return getFormulasByGroupId(groupId).contains(formulaName);
     }
 
     /**
@@ -345,13 +348,13 @@ public class FormulaManager {
         Map<Long, Map<String, Object>> groupsFormulaData = getGroupsFormulaData(groupIDs, formulaName);
 
         return minionIDs.stream().map(mID -> getCombinedFormulaDataForSystem(mID,
-                Optional.ofNullable(managedGroupsPerServer.get(mID.getServerId())), groupsFormulaData,
-                formulaName)).collect(Collectors.toList());
+                Optional.ofNullable(managedGroupsPerServer.get(mID.getServerId())), groupsFormulaData, formulaName))
+                .collect(Collectors.toList());
     }
 
     private FormulaData getCombinedFormulaDataForSystem(MinionIds minionID,
-                Optional<List<SystemGroupID>> managedSystemGroups, Map<Long, Map<String, Object>> groupsFormulaData,
-                String formulaName) {
+            Optional<List<SystemGroupID>> managedSystemGroups, Map<Long, Map<String, Object>> groupsFormulaData,
+            String formulaName) {
         Map<String, Object> combinedFormulaData = new HashMap<>();
 
         managedSystemGroups.ifPresent(groups -> groups.forEach(group -> combinedFormulaData
@@ -413,6 +416,11 @@ public class FormulaManager {
                 .flatMap(name -> getGroupFormulaValuesByNameAndGroupId(name, cluster.getGroup().getId()));
     }
 
+    /**
+     * Gets all endpoints details for given systems
+     * @param systemIDs list of system IDs
+     * @return list of endpoint information objects
+     */
     public List<EndpointInfo> listEndpoints(List<Long> systemIDs) {
         List<MinionIds> minionIDs = MinionServerFactory.findMinionIdsByServerIds(systemIDs);
 

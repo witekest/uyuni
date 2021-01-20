@@ -60,7 +60,16 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -1100,6 +1109,12 @@ public class FormulaFactory {
         return dataDir + PILLAR_DIR;
     }
 
+    /**
+     * Find endpoint information from given formula data
+     * @param formulaName name of the formula to examine
+     * @param formulaData formula data to extract information from
+     * @return list of endpoint information objects
+     */
     public static List<EndpointInfo> getEndpointsFromFormulaData(String formulaName, FormulaData formulaData) {
         List<EndpointInfo> endpointInfos = new ArrayList<>();
         endpointInfos.addAll(getExportersEndpoints(formulaData));

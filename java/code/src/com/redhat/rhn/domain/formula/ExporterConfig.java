@@ -13,36 +13,46 @@ public class ExporterConfig {
     private String address;
     private String args;
 
-    public ExporterConfig(String name, String address, String args) {
-        this.name = name;
-        this.address = address;
-        this.args = args;
+    /**
+     * Instantiates new exporter configuration object
+     * @param exporterName exporter name
+     * @param addressIn the address of the endpoint where metrics are exposed
+     * @param argsIn the string with command line arguments
+     */
+    public ExporterConfig(String exporterName, String addressIn, String argsIn) {
+        this.name = exporterName;
+        this.address = addressIn;
+        this.args = argsIn;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String exporterName) {
+        this.name = exporterName;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAddress(String addressIn) {
+        this.address = addressIn;
     }
 
     public String getArgs() {
         return args;
     }
 
-    public void setArgs(String args) {
-        this.args = args;
+    public void setArgs(String argsIn) {
+        this.args = argsIn;
     }
 
+    /**
+     * Get port number at which metrics are exposed
+     * @return port number
+     */
     public Integer getPort() {
         Optional<Integer> port = getPatternMatchGroupAsInteger(PORT_ARG_REGEX, args);
         if (port.isEmpty()) {

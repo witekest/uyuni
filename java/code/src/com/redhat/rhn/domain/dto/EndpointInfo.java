@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2020 SUSE LLC
+  Copyright (c) 2021 SUSE LLC
 
   This software is licensed to you under the GNU General Public License,
   version 2 (GPLv2). There is NO WARRANTY for this software, express or
@@ -27,9 +27,14 @@ public class EndpointInfo {
     private String module;
     private String exporterName;
 
-    public EndpointInfo(Long systemID, String endpointName) {
-        this.systemID = systemID;
-        this.endpointName = endpointName;
+    /**
+     * Instantiates a new endpoint information
+     * @param systemIDIn server ID
+     * @param endpointNameIn endpoint name
+     */
+    public EndpointInfo(Long systemIDIn, String endpointNameIn) {
+        this.systemID = systemIDIn;
+        this.endpointName = endpointNameIn;
     }
 
     public Long getSystemID() {
@@ -44,32 +49,32 @@ public class EndpointInfo {
         return port;
     }
 
-    public void setPort(Integer port) {
-        this.port = port;
+    public void setPort(Integer portIn) {
+        this.port = portIn;
     }
 
     public String getPath() {
         return path;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setPath(String pathIn) {
+        this.path = pathIn;
     }
 
     public String getModule() {
         return module;
     }
 
-    public void setModule(String module) {
-        this.module = module;
+    public void setModule(String moduleIn) {
+        this.module = moduleIn;
     }
 
     public String getExporterName() {
         return exporterName;
     }
 
-    public void setExporterName(String exporterName) {
-        this.exporterName = exporterName;
+    public void setExporterName(String exporterNameIn) {
+        this.exporterName = exporterNameIn;
     }
 
     @Override

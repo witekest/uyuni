@@ -22,7 +22,6 @@ import com.redhat.rhn.common.localization.LocalizationService;
 import com.redhat.rhn.common.security.PermissionException;
 
 import com.redhat.rhn.common.validator.ValidatorException;
-import com.redhat.rhn.domain.dto.EndpointInfo;
 import com.redhat.rhn.domain.server.Server;
 import com.redhat.rhn.domain.server.ServerFactory;
 import com.redhat.rhn.domain.server.MinionServerFactory;
@@ -237,25 +236,6 @@ public class FormulaHandler extends BaseHandler {
     public List<FormulaData> getCombinedFormulaDataByServerIds(User loggedInUser, String formulaName,
             List<Long> systemIds) {
         return this.formulaManager.getCombinedFormulaDataForSystems(loggedInUser, systemIds, formulaName);
-    }
-
-    /**
-     * Get the saved data for all formulas applied to the systems whose IDs match with the passed systems IDs
-     * and all of the groups those systems are member of.
-     *
-     * @param loggedInUser The current user
-     * @param systemIDs The system IDs
-     * @return a list containing the saved data for all formulas applied on the passed system IDs.
-     *
-     * @xmlrpc.param #session_key()
-     * @xmlrpc.param #array_single("int", "systemID")
-     * @xmlrpc.returntype
-     *   #array_begin()
-     *     struct String, $FormulaDataSerializer
-     *   #array_end()
-     */
-    public List<EndpointInfo> listEndpoints(User loggedInUser, List<Long> systemIDs) {
-        return this.formulaManager.listEndpoints(systemIDs);
     }
 
     /**
