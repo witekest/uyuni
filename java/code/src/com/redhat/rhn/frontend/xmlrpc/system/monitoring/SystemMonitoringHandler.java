@@ -1,4 +1,4 @@
-/*
+/**
   Copyright (c) 2021 SUSE LLC
 
   This software is licensed to you under the GNU General Public License,
@@ -20,8 +20,6 @@ import com.redhat.rhn.domain.user.User;
 import com.redhat.rhn.frontend.xmlrpc.BaseHandler;
 import com.redhat.rhn.manager.formula.FormulaManager;
 
-import org.apache.log4j.Logger;
-
 import java.util.List;
 
 /**
@@ -34,8 +32,12 @@ public class SystemMonitoringHandler extends BaseHandler {
 
     private final FormulaManager formulaManager;
 
-    public SystemMonitoringHandler(FormulaManager formulaManager) {
-        this.formulaManager = formulaManager;
+    /**
+     * Instantiates a new system handler for system.monitoring namespace
+     * @param formulaManagerIn instance of formula manager object
+     */
+    public SystemMonitoringHandler(FormulaManager formulaManagerIn) {
+        this.formulaManager = formulaManagerIn;
     }
 
     /**
