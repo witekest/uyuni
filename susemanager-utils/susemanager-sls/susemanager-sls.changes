@@ -1,3 +1,5 @@
+  * Run Prometheus JMX exporter as Java agent (bsc#1184617)
+
 -------------------------------------------------------------------
 Wed Oct 06 09:40:53 CEST 2021 - jgonzalez@suse.com
 
